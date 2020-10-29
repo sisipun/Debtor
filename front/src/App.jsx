@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { AddDebt, DebtList } from './components'
 
 export const App = () => {
+    const [debts, setDebts] = useState([]);
+
     return (
         <div>
-            <AddDebt />
-            <DebtList />
+            <AddDebt
+                saveDebt={(debt) => setDebts([...debts, debt])}
+            />
+            <DebtList
+                debts={debts}
+            />
         </div>
     )
 }
