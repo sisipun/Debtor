@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+
+import { addDebt } from '../actions'
 
 export const AddDebt = ({
-    saveDebt,
+    addDebt,
 }) => {
     const initialDebt = {
         debtor: "",
@@ -12,7 +15,7 @@ export const AddDebt = ({
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        saveDebt(debt)
+        addDebt(debt)
         setDebt(initialDebt)
     }
     const handleChange = (event) => {
@@ -29,4 +32,7 @@ export const AddDebt = ({
     )
 }
 
-export default AddDebt
+export default connect(
+    null,
+    { addDebt },
+)(AddDebt)

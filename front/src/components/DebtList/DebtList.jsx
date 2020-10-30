@@ -1,4 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import { getDebts } from '../selectors'
 
 export const DebtList = ({
     debts
@@ -12,4 +15,12 @@ export const DebtList = ({
     )
 }
 
-export default DebtList
+const mapStateToProps = state => {
+    return {
+        debts: getDebts(state)
+    }
+}
+
+export default connect(
+    mapStateToProps,
+)(DebtList)
