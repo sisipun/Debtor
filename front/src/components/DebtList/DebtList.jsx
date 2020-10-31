@@ -2,15 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { getDebts } from '../selectors'
+import { DEBT_FIELDS } from '../constants'
 
 export const DebtList = ({
     debts
 }) => {
     return debts.map(debt =>
         <div>
-            <span>{debt.debtor}</span>
-            <span>{debt.value}</span>
-            <span>{debt.currency}</span>
+            <span>{debt.getIn([DEBT_FIELDS.DEBTOR])}</span>
+            <span>{debt.getIn([DEBT_FIELDS.VALUE])}</span>
+            <span>{debt.getIn([DEBT_FIELDS.CURRENCY])}</span>
         </div>
     )
 }
