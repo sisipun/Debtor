@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import { Map } from 'immutable'
 
-import { addDebt } from '../actions'
 import { DEBT_FIELDS } from '../constants'
+import { useSaveDebtCallback } from '../hooks'
 
-export const AddDebt = ({
-    addDebt,
-}) => {
+export const AddDebt = () => {
     const initialDebt = Map({
         [DEBT_FIELDS.DEBTOR]: "",
         [DEBT_FIELDS.VALUE]: 0,
         [DEBT_FIELDS.CURRENCY]: ""
     })
     const [debt, setDebt] = useState(initialDebt)
+    const saveDebt = useSaveDebtCallback()
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        addDebt(debt)
+        saveDebt(debt)
         setDebt(initialDebt)
     }
     const handleChange = (event) => {
@@ -34,7 +32,4 @@ export const AddDebt = ({
     )
 }
 
-export default connect(
-    null,
-    { addDebt },
-)(AddDebt)
+export default AddDebt

@@ -1,13 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-import { getDebts } from '../selectors'
 import { DEBT_FIELDS } from '../constants'
+import { useDebts } from '../hooks'
 
-export const DebtList = ({
-    debts
-}) => {
-    return debts.map(debt =>
+export const DebtList = () => {
+    const {
+        data
+    } = useDebts()
+
+    return data.map(debt =>
         <div>
             <span>{debt.getIn([DEBT_FIELDS.DEBTOR])}</span>
             <span>{debt.getIn([DEBT_FIELDS.VALUE])}</span>
@@ -16,12 +17,4 @@ export const DebtList = ({
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        debts: getDebts(state)
-    }
-}
-
-export default connect(
-    mapStateToProps,
-)(DebtList)
+export default DebtList
