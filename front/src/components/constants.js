@@ -1,4 +1,3 @@
-export const ADD_DEBT = 'ADD_DEBT'
 export const GET_DEBTS = 'GET_DEBTS'
 export const RESET_DEBTS = 'RESET_DEBTS'
 
