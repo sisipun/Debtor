@@ -5,4 +5,6 @@ export const DEBT_FIELDS = {
     DEBTOR: 'debtor',
     VALUE: 'value',
     CURRENCY: 'currency',
+    DEBT_DATE: 'debtDate',
+    REPAYMENT_DATE: 'repaymentDate',
 }
