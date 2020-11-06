@@ -1,4 +1,9 @@
 import React from 'react'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from "react-router-dom";
 
 import { AddDebt, DebtList } from './components'
 
@@ -6,10 +11,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export const App = () => {
     return (
-        <div>
-            <AddDebt />
-            <DebtList />
-        </div>
+        <Router>
+            <Route exact path="/" component={DebtList} />
+            <Route path="/add" component={AddDebt} />
+        </Router>
     )
 }
 

@@ -1,44 +1,42 @@
 import React, { useState } from 'react'
+import DatePicker from 'react-datepicker'
+import { useHistory } from 'react-router-dom';
 import { Map } from 'immutable'
 
-import DatePicker from 'react-datepicker'
-
-import { DEBT_FIELDS } from '../constants'
-import { useSaveDebtCallback } from '../hooks'
+import { ADD_DEBT_FIELDS } from './constants'
+import { useDebt, useChangeDebtCallback, useSaveDebtCallback } from './hooks'
 
 export const AddDebt = () => {
-    const initialDebt = Map({
-        [DEBT_FIELDS.DEBTOR]: "",
-        [DEBT_FIELDS.VALUE]: 0,
-        [DEBT_FIELDS.CURRENCY]: "",
-        [DEBT_FIELDS.DEBT_DATE]: new Date(),
-        [DEBT_FIELDS.REPAYMENT_DATE]: new Date()
-    })
-    const [debt, setDebt] = useState(initialDebt)
+    const {
+        data: debt
+    } = useDebt()
+    const changeDebt = useChangeDebtCallback()
     const saveDebt = useSaveDebtCallback()
+
+    const history = useHistory()
 
     const handleSubmit = (event) => {
         event.preventDefault()
         saveDebt(debt)
-        setDebt(initialDebt)
+        history.push("/")
     }
     const handleChange = (event) => {
-        setDebt(debt.setIn([event.target.name], event.target.value))
+        changeDebt(debt.setIn([event.target.name], event.target.value))
     }
     const handleDebtDate = (date) => {
-        setDebt(debt.setIn([DEBT_FIELDS.DEBT_DATE], date))
+        changeDebt(debt.setIn([ADD_DEBT_FIELDS.DEBT_DATE], date))
     }
     const handleRepaymentDate = (date) => {
-        setDebt(debt.setIn([DEBT_FIELDS.REPAYMENT_DATE], date))
+        changeDebt(debt.setIn([ADD_DEBT_FIELDS.REPAYMENT_DATE], date))
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" name={DEBT_FIELDS.DEBTOR} value={debt.getIn([DEBT_FIELDS.DEBTOR])} onChange={handleChange} />
-            <input type="number" name={DEBT_FIELDS.VALUE} value={debt.getIn([DEBT_FIELDS.VALUE])} onChange={handleChange} />
-            <input type="text" name={DEBT_FIELDS.CURRENCY} value={debt.getIn([DEBT_FIELDS.CURRENCY])} onChange={handleChange} />
-            <DatePicker selected={debt.getIn([DEBT_FIELDS.DEBT_DATE])} onChange={handleDebtDate} />
-            <DatePicker selected={debt.getIn([DEBT_FIELDS.REPAYMENT_DATE])} onChange={handleRepaymentDate} />
+            <input type="text" name={ADD_DEBT_FIELDS.DEBTOR} value={debt.getIn([ADD_DEBT_FIELDS.DEBTOR])} onChange={handleChange} />
+            <input type="number" name={ADD_DEBT_FIELDS.VALUE} value={debt.getIn([ADD_DEBT_FIELDS.VALUE])} onChange={handleChange} />
+            <input type="text" name={ADD_DEBT_FIELDS.CURRENCY} value={debt.getIn([ADD_DEBT_FIELDS.CURRENCY])} onChange={handleChange} />
+            <DatePicker selected={debt.getIn([ADD_DEBT_FIELDS.DEBT_DATE])} onChange={handleDebtDate} />
+            <DatePicker selected={debt.getIn([ADD_DEBT_FIELDS.REPAYMENT_DATE])} onChange={handleRepaymentDate} />
             <input type="submit" value="Add" />
         </form>
     )
