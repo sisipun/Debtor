@@ -19,12 +19,12 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 
 object DebtorApp {
 
-  implicit val localDateFormat = new JsonFormat[LocalDate] {
+  implicit val localDateFormat: JsonFormat[LocalDate] = new JsonFormat[LocalDate] {
     private val iso_date = DateTimeFormatter.ISO_DATE
 
-    def write(date: LocalDate) = JsString(iso_date.format(date))
+    def write(date: LocalDate): JsValue = JsString(iso_date.format(date))
 
-    def read(value: JsValue) = value match {
+    def read(value: JsValue): LocalDate = value match {
       case JsString(date) => LocalDate.parse(date, iso_date)
       case date => throw new RuntimeException(s"Unexpected type ${date.getClass.getName} when trying to parse LocalDate")
     }
@@ -34,7 +34,7 @@ object DebtorApp {
   implicit val debtsFormat: RootJsonFormat[Debts] = jsonFormat1(Debts)
 
   def main(args: Array[String]): Unit = {
-    implicit val system: ActorSystem[DebtorStorage.DebtorMessage] = ActorSystem(DebtorStorage.apply, "debtor-system")
+    implicit val system: ActorSystem[DebtorStorage.DebtorMessage] = ActorSystem(DebtorStorage.apply(), "debtor-system")
     implicit val executionContext: ExecutionContextExecutor = system.executionContext
 
     val debtorStorage: ActorRef[DebtorStorage.DebtorMessage] = system
@@ -60,6 +60,6 @@ object DebtorApp {
       )
     }
 
-    val bindingFuture = Http().newServerAt("localhost", 8080).bind(route)
+    Http().newServerAt("localhost", 8080).bind(route)
   }
 }

@@ -15,6 +15,7 @@ object DebtorStorage {
                          debtDate: LocalDate,
                          repaymentDate: LocalDate,
                        ) extends DebtorMessage
+
   final case class GetDebts(replyTo: ActorRef[Debts]) extends DebtorMessage
 
   final case class Debts(debts: List[Debt])
@@ -28,5 +29,4 @@ object DebtorStorage {
       replyTo ! Debts(debts)
       Behaviors.same
   }
-
 }
