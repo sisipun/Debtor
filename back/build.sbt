@@ -4,7 +4,7 @@ version := "0.1"
 
 scalaVersion := "2.13.3"
 
-val AkkaVersion = "2.6.8"
+val AkkaVersion = "2.6.10"
 val AkkaHttpVersion = "10.2.1"
 val AkkaCorsVersion = "1.1.0"
 val LogbackVersion = "1.1.3"
